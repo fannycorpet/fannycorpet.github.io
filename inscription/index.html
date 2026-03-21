@@ -409,7 +409,7 @@
               <div class="sib-form-block sib-text-form-block"></div>
             </div>
 
-            <!-- Prénom -->
+            <!-- Prénom — name="PRENOM" = attribut Brevo exact -->
             <div style="padding: 0 0 16px 0;">
               <div class="sib-input sib-form-block">
                 <div class="form__entry entry_block">
@@ -424,7 +424,22 @@
               </div>
             </div>
 
-            <!-- Email -->
+            <!-- Nom — name="NOM" = attribut Brevo exact -->
+            <div style="padding: 0 0 16px 0;">
+              <div class="sib-input sib-form-block">
+                <div class="form__entry entry_block">
+                  <div class="form__label-row">
+                    <label class="entry__label" for="NOM">Nom <span style="color:var(--salmon)">*</span></label>
+                    <div class="entry__field">
+                      <input class="input" maxlength="200" type="text" id="NOM" name="NOM" autocomplete="family-name" placeholder="Ton nom" data-required="true" required />
+                    </div>
+                  </div>
+                  <label class="entry__error entry__error--primary" style="display:none;"></label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Email — name="EMAIL" = attribut Brevo exact -->
             <div style="padding: 0 0 16px 0;">
               <div class="sib-input sib-form-block">
                 <div class="form__entry entry_block">
@@ -439,14 +454,21 @@
               </div>
             </div>
 
-            <!-- Où en es-tu de ta levée ? (champ texte libre → Brevo l'enregistre comme attribut) -->
+            <!-- ⚠️ AVANT DE DÉPLOYER : dans Brevo → Contacts → Paramètres des contacts → Attributs,
+                 crée ces deux attributs de type "Texte" :
+                 - OU_EN_ES_TU
+                 - COMMENT_ENTENDU
+                 Sinon Brevo les ignore silencieusement.
+            -->
+
+            <!-- Où en es-tu de ta levée ? — name doit correspondre à l'attribut Brevo créé -->
             <div style="padding: 0 0 16px 0;">
               <div class="sib-input sib-form-block">
                 <div class="form__entry entry_block">
                   <div class="form__label-row">
-                    <label class="entry__label" for="OÙ_EN_ES_TU">Où en es-tu de ta levée ? <span style="color:var(--salmon)">*</span></label>
+                    <label class="entry__label" for="OU_EN_ES_TU">Où en es-tu de ta levée ? <span style="color:var(--salmon)">*</span></label>
                     <div class="entry__field" style="position:relative;">
-                      <select class="input" id="OÙ_EN_ES_TU" name="OÙ_EN_ES_TU" data-required="true" required style="padding-right:36px;">
+                      <select class="input" id="OU_EN_ES_TU" name="OU_EN_ES_TU" data-required="true" required style="padding-right:36px;">
                         <option value="" disabled selected>Choisis une option</option>
                         <option value="J'y réfléchis">J'y réfléchis</option>
                         <option value="Je vais commencer bientôt">Je vais commencer bientôt</option>
@@ -480,12 +502,13 @@
               </div>
             </div>
 
-            <!-- Newsletter (optionnelle, décochée par défaut — RGPD) -->
+            <!-- Newsletter (optionnelle, décochée par défaut — RGPD)
+                 OPT_IN est le nom standard Brevo pour le consentement newsletter -->
             <div style="padding: 0 0 20px 0;">
               <div class="sib-optin sib-form-block">
                 <div class="form__entry entry_block">
                   <div class="form__label-row" style="display:flex; align-items:flex-start; gap:10px;">
-                    <input type="checkbox" id="OPT_IN" name="OPT_IN" style="margin-top:3px; width:18px; height:18px; accent-color:var(--green); flex-shrink:0;">
+                    <input type="checkbox" id="OPT_IN" name="OPT_IN" value="1" style="margin-top:3px; width:18px; height:18px; accent-color:var(--green); flex-shrink:0;">
                     <label class="entry__label" for="OPT_IN" style="font-weight:400; font-size:0.82rem; color:var(--muted); cursor:pointer; line-height:1.5;">
                       J'accepte de recevoir les contenus et actualités de Fanny Corpet par email. Je peux me désabonner à tout moment.
                     </label>
