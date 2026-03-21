@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C'est noté — Masterclass Levée de Fonds · Fanny Corpet Sauvageon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=General+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:  #0B3D2E;
+      --salmon: #EF9C82;
+      --cream:  #FFF5F0;
+      --green-light: #14573F;
+      --text-muted: #6B7E72;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--cream);
+      color: var(--green);
+      font-family: 'General Sans', sans-serif;
+    }
+
+    /* ── Layout ── */
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    /* ── Header strip ── */
+    .header {
+      background: var(--green);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--cream);
+      letter-spacing: 0.02em;
+    }
+    .header-name span { color: var(--salmon); }
+
+    /* ── Main ── */
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px 80px;
+      gap: 0;
+    }
+
+    /* ── Check animation ── */
+    .check-wrap {
+      margin-bottom: 36px;
+      animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.4); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .check-circle {
+      width: 72px; height: 72px;
+      background: var(--salmon);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .check-circle svg { width: 36px; height: 36px; stroke: var(--cream); stroke-width: 2.5; fill: none; }
+
+    /* ── Card ── */
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 48px 52px;
+      max-width: 560px;
+      width: 100%;
+      box-shadow: 0 8px 40px rgba(11,61,46,0.08);
+      animation: fadeUp 0.7s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes fadeUp {
+      from { transform: translateY(24px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    .headline {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      line-height: 1.15;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+    .headline em {
+      font-style: italic;
+      color: var(--salmon);
+    }
+
+    .subline {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    /* ── Event meta ── */
+    .event-meta {
+      background: var(--cream);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .event-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--green);
+    }
+    .meta-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    .meta-row svg { width: 16px; height: 16px; flex-shrink: 0; stroke: var(--salmon); stroke-width: 2; fill: none; }
+
+    /* ── Steps ── */
+    .steps-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .step-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--green);
+      color: var(--cream);
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-body { flex: 1; }
+    .step-body strong {
+      display: block;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 2px;
+    }
+    .step-body p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 22px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(11,61,46,0.15); }
+    .btn-primary { background: var(--green); color: var(--cream); }
+    .btn-outline {
+      background: transparent;
+      color: var(--green);
+      border: 1.5px solid var(--green);
+    }
+    .btn svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: #E8EDE9;
+      margin: 32px 0;
+    }
+
+    /* ── Signature ── */
+    .signature {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .signature strong { color: var(--green); }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--green);
+      padding: 20px 40px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: rgba(255,245,240,0.5);
+    }
+    footer a { color: var(--salmon); text-decoration: none; }
+
+    /* ── Agenda dropdown ── */
+    .agenda-wrap { position: relative; display: inline-block; }
+    .agenda-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(11,61,46,0.15);
+      overflow: hidden;
+      min-width: 220px;
+      z-index: 10;
+      animation: fadeDown 0.18s ease both;
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .agenda-dropdown.open { display: block; }
+    .agenda-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 18px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--green);
+      text-decoration: none;
+      transition: background 0.12s;
+    }
+    .agenda-option:hover { background: var(--cream); }
+    .agenda-option + .agenda-option { border-top: 1px solid #eee; }
+
+    /* ── Mobile ── */
+    @media (max-width: 600px) {
+      .header { padding: 16px 20px; }
+      .card { padding: 32px 24px; border-radius: 16px; }
+      .headline { font-size: 1.6rem; }
+      .cta-row { flex-direction: column; }
+      .btn { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="header-name">Fanny <span>Corpet</span> Sauvageon</div>
+  </header>
+
+  <main>
+
+    <div class="check-wrap">
+      <div class="check-circle">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+    </div>
+
+    <div class="card">
+
+      <h1 class="headline">C'est noté.<br><em>On se voit le 23 avril.</em></h1>
+      <p class="subline">Tu es inscrit·e à la masterclass. Un email de confirmation arrive dans ta boîte dans quelques minutes.</p>
+
+      <div class="event-meta">
+        <div class="event-title">Les enjeux sous-estimés d'une levée de fonds</div>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Jeudi 23 avril 2026 — 75 min
+        </div>
+        <div class="meta-row">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+          En ligne · Le lien Zoom t'arrivera la veille par email
+        </div>
+      </div>
+
+      <div class="steps-label">3 choses à faire maintenant</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Ajoute la date à ton agenda</strong>
+            <p>Pour ne pas oublier — et bloquer le créneau avant que quelque chose d'autre prenne la place.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Rejoins-moi sur LinkedIn</strong>
+            <p>Je publie des prises de conscience sur la levée chaque semaine d'ici le 23 avril. C'est le meilleur moyen d'arriver préparé·e.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Accède à la page Notion (gratuit)</strong>
+            <p>Les enjeux sous-estimés d'une levée de fonds — 15 min de lecture pour arriver avec les bonnes questions.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agenda dropdown -->
+      <div class="agenda-wrap">
+        <button class="btn btn-primary" id="agendaBtn" onclick="toggleAgenda()">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Ajouter à mon agenda
+          <svg id="agendaChevron" style="width:14px;height:14px;transition:transform 0.2s" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="agenda-dropdown" id="agendaDropdown">
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Masterclass%20gratuite%20%E2%80%94%20Les%20enjeux%20sous-estim%C3%A9s%20d%27une%20lev%C3%A9e%20de%20fonds&dates=20260423T093000Z/20260423T104500Z&details=Masterclass%20avec%20Fanny%20Corpet%20%E2%80%94%20Coach%2C%20ex-VC%20%28XAnge%29%2C%20ex-CFO%20%28Scality%29.%2090%20min%20pour%20comprendre%20ce%20qui%20fait%20vraiment%20la%20diff%C3%A9rence%20dans%20une%20lev%C3%A9e%20de%20fonds%20%3A%20ta%20posture%20et%20ton%20ancrage.%20Le%20lien%20Zoom%20t%27arrivera%20par%20email%20la%20veille.&location=En%20ligne%20%28lien%20Zoom%20envoy%C3%A9%20par%20email%20la%20veille%29" target="_blank" class="agenda-option">
+            <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:none;stroke:#4285F4;stroke-width:2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Google Agenda
+          </a>
+          <a href="https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&startdt=20260423T113000&enddt=20260423T124500&subject=Masterclass%20gratuite%20%E2%80%94%20Les%20enjeux%20sous-estim%C3%A9s%20d%27une%20lev%C3%A9e%20de%20fonds&body=Masterclass%20avec%20Fanny%20Corpet%20%E2%80%94%20Coach%2C%20ex-VC%20%28XAnge%29%2C%20ex-CFO%20%28Scality%29.%2090%20min%20pour%20comprendre%20ce%20qui%20fait%20vraiment%20la%20diff%C3%A9rence%20dans%20une%20lev%C3%A9e%20de%20fonds%20%3A%20ta%20posture%20et%20ton%20ancrage.%20Le%20lien%20Zoom%20t%27arrivera%20par%20email%20la%20veille.&location=En%20ligne%20%28lien%20Zoom%20envoy%C3%A9%20par%20email%20la%20veille%29" target="_blank" class="agenda-option">
+            <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:none;stroke:#0078D4;stroke-width:2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Outlook
+          </a>
+          <a href="data:text/calendar;charset=utf-8,BEGIN%3AVCALENDAR%0AVERSION%3A2.0%0APRODID%3A-//FannyCorpet//Masterclass//FR%0ABEGIN%3AVEVENT%0ADTSTART%3A20260423T093000Z%0ADTEND%3A20260423T104500Z%0ASUMMARY%3AMasterclass%20gratuite%20%E2%80%94%20Les%20enjeux%20sous-estim%C3%A9s%20d%27une%20lev%C3%A9e%20de%20fonds%0ADESCRIPTION%3AMasterclass%20avec%20Fanny%20Corpet.%20Le%20lien%20Zoom%20t%27arrivera%20par%20email%20la%20veille.%0ALOCATION%3AEn%20ligne%0AEND%3AVEVENT%0AEND%3AVCALENDAR" download="masterclass-fanny-corpet.ics" class="agenda-option">
+            <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:none;stroke:#555;stroke-width:2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Apple Calendar / Autre (.ics)
+          </a>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <a href="https://concrete-taker-eca.notion.site/Tous-les-enjeux-sous-estim-s-d-une-lev-e-de-fonds-1b65522ee09d80219568c32a02a38e6d?pvs=74" class="btn btn-outline" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Lire le guide gratuit →
+        </a>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="signature">
+        À très vite dans la salle,<br><br>
+        <strong>Fanny</strong><br>
+        <a href="https://www.linkedin.com/in/fanny-corpet/" style="color:var(--salmon);font-size:0.85rem;text-decoration:none;">→ Me suivre sur LinkedIn</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    © 2026 Fanny Corpet · <a href="https://fannycorpet.com">fannycorpet.com</a>
+  </footer>
+
+</div>
+</body>
+<script>
+function toggleAgenda() {
+  const d = document.getElementById('agendaDropdown');
+  const c = document.getElementById('agendaChevron');
+  d.classList.toggle('open');
+  c.style.transform = d.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.agenda-wrap')) {
+    document.getElementById('agendaDropdown').classList.remove('open');
+    document.getElementById('agendaChevron').style.transform = '';
+  }
+});
+</script>
+</html>
