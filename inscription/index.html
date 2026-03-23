@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inscription — Masterclass Levée de Fonds · Fanny Corpet</title>
   <meta name="description" content="Masterclass gratuite — Les enjeux sous-estimés d'une levée de fonds. Jeudi 23 avril 2026, 11h30, en ligne.">
+
+  <!-- Open Graph — aperçu LinkedIn / Twitter / WhatsApp -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://fannycorpet.com/inscription.html">
+  <meta property="og:title"       content="Les enjeux sous-estimés d'une levée de fonds — Masterclass gratuite">
+  <meta property="og:description" content="Ce qui fait vraiment la différence : ta posture et ton ancrage. Jeudi 23 avril 2026 · 11h30 · 75 min · En ligne · Gratuit">
+  <meta property="og:image"       content="https://fannycorpet.com/og-masterclass.png">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale"      content="fr_FR">
+  <meta property="og:site_name"   content="Fanny Corpet">
+
+  <!-- Twitter Card (aussi utilisé par LinkedIn parfois) -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Les enjeux sous-estimés d'une levée de fonds — Masterclass gratuite">
+  <meta name="twitter:description" content="Ce qui fait vraiment la différence : ta posture et ton ancrage. 23 avril 2026 · gratuit">
+  <meta name="twitter:image"       content="https://fannycorpet.com/og-masterclass.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=General+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -456,7 +473,7 @@
 
             <!-- ⚠️ AVANT DE DÉPLOYER : dans Brevo → Contacts → Paramètres des contacts → Attributs,
                  crée ces deux attributs de type "Texte" :
-                 - OU_EN_ES_TU
+                 - OU_EN_ES_TU_LEVEE
                  - COMMENT_ENTENDU
                  Sinon Brevo les ignore silencieusement.
             -->
@@ -466,14 +483,15 @@
               <div class="sib-input sib-form-block">
                 <div class="form__entry entry_block">
                   <div class="form__label-row">
-                    <label class="entry__label" for="OU_EN_ES_TU">Où en es-tu de ta levée ? <span style="color:var(--salmon)">*</span></label>
+                    <label class="entry__label" for="OU_EN_ES_TU_LEVEE">Où en es-tu de ta levée ? <span style="color:var(--salmon)">*</span></label>
                     <div class="entry__field" style="position:relative;">
-                      <select class="input" id="OU_EN_ES_TU" name="OU_EN_ES_TU" data-required="true" required style="padding-right:36px;">
+                      <select class="input" id="OU_EN_ES_TU_LEVEE" name="OU_EN_ES_TU_LEVEE" data-required="true" required style="padding-right:36px;">
                         <option value="" disabled selected>Choisis une option</option>
                         <option value="J'y réfléchis">J'y réfléchis</option>
                         <option value="Je vais commencer bientôt">Je vais commencer bientôt</option>
                         <option value="Je suis en plein dedans">Je suis en plein dedans</option>
                         <option value="J'ai déjà levé">J'ai déjà levé</option>
+                        <option value="Je suis juste curieux·se">Je suis juste curieux·se</option>
                       </select>
                     </div>
                   </div>
@@ -502,18 +520,15 @@
               </div>
             </div>
 
-            <!-- Newsletter (optionnelle, décochée par défaut — RGPD)
-                 OPT_IN est le nom standard Brevo pour le consentement newsletter -->
+            <!-- Newsletter (optionnelle, décochée par défaut — RGPD) -->
             <div style="padding: 0 0 20px 0;">
-              <div class="sib-optin sib-form-block">
-                <div class="form__entry entry_block">
-                  <div class="form__label-row" style="display:flex; align-items:flex-start; gap:10px;">
-                    <input type="checkbox" id="OPT_IN" name="OPT_IN" value="1" style="margin-top:3px; width:18px; height:18px; accent-color:var(--green); flex-shrink:0;">
-                    <label class="entry__label" for="OPT_IN" style="font-weight:400; font-size:0.82rem; color:var(--muted); cursor:pointer; line-height:1.5;">
-                      J'accepte de recevoir les contenus et actualités de Fanny Corpet par email. Je peux me désabonner à tout moment.
-                    </label>
-                  </div>
-                </div>
+              <div style="display:flex; align-items:flex-start; gap:10px;">
+                <input type="checkbox" id="OPT_IN" name="OPT_IN" value="1"
+                  style="margin-top:3px; width:18px; height:18px; min-width:18px; accent-color:#0B3D2E; flex-shrink:0; cursor:pointer;">
+                <label for="OPT_IN"
+                  style="font-family:'General Sans',sans-serif; font-size:0.82rem; font-weight:400; color:#6B7E72; cursor:pointer; line-height:1.5; margin:0;">
+                  J'accepte de recevoir les contenus et actualités de Fanny Corpet par email. Je peux me désabonner à tout moment.
+                </label>
               </div>
             </div>
 

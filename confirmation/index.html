@@ -279,7 +279,7 @@
 <div class="page">
 
   <header class="header">
-    <div class="header-name">Fanny <span>Corpet</span> Sauvageon</div>
+    <div class="header-name">Fanny <span>Corpet </span>Sauvageon</span></div>
   </header>
 
   <main>
@@ -374,7 +374,7 @@
   </main>
 
   <footer>
-    © 2026 Fanny Corpet · <a href="https://fannycorpet.com">fannycorpet.com</a>
+    © 2025 Fanny Corpet · <a href="https://fannycorpet.com">fannycorpet.com</a>
   </footer>
 
 </div>
@@ -392,5 +392,45 @@ document.addEventListener('click', function(e) {
     document.getElementById('agendaChevron').style.transform = '';
   }
 });
+
+// Sur mobile iOS/Android, le lien Google Calendar ne s'ouvre pas bien.
+// On détecte le mobile et on met le .ics en premier + on l'ouvre directement.
+(function() {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    const dropdown = document.getElementById('agendaDropdown');
+    const options = dropdown.querySelectorAll('.agenda-option');
+
+    // Sur mobile : clic sur le bouton principal ouvre directement le .ics
+    // (universel, fonctionne sur iOS Calendar et Google Calendar Android)
+    document.getElementById('agendaBtn').addEventListener('click', function(e) {
+      // On laisse quand même le dropdown s'ouvrir pour qu'ils puissent choisir
+    });
+
+    // Réordonner : mettre Apple/ICS en premier sur mobile
+    const icsOption = dropdown.querySelector('a[download]');
+    if (icsOption) {
+      dropdown.insertBefore(icsOption.parentElement || icsOption, dropdown.firstChild);
+    }
+
+    // Sur iOS, le download d'un data: URI ne fonctionne pas bien dans Safari
+    // On utilise un Blob à la place
+    if (isIOS) {
+      const icsLink = document.querySelector('a[download="masterclass-fanny-corpet.ics"]');
+      if (icsLink) {
+        icsLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          const icsContent = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//FannyCorpet//Masterclass//FR\r\nBEGIN:VEVENT\r\nDTSTART:20260423T093000Z\r\nDTEND:20260423T104500Z\r\nSUMMARY:Masterclass gratuite — Les enjeux sous-estimés d'une levée de fonds\r\nDESCRIPTION:Masterclass avec Fanny Corpet. Le lien Zoom t'arrivera par email la veille.\r\nLOCATION:En ligne\r\nEND:VEVENT\r\nEND:VCALENDAR";
+          const blob = new Blob([icsContent], {type: 'text/calendar;charset=utf-8'});
+          const url = URL.createObjectURL(blob);
+          window.location.href = url;
+          setTimeout(() => URL.revokeObjectURL(url), 3000);
+        });
+      }
+    }
+  }
+})();
 </script>
 </html>
