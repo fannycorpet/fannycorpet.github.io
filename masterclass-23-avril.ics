@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Fanny Corpet//Masterclass//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART:20260423T093000Z
+DTEND:20260423T104500Z
+SUMMARY:Masterclass gratuite — Les enjeux sous-estimés d'une levée de fonds
+DESCRIPTION:Masterclass avec Fanny Corpet — Coach & sparring partner des CEOs Seed / Série A.\nLe lien Zoom t'arrivera par email la veille.\nfannycorpet.com
+LOCATION:En ligne (lien Zoom envoyé par email la veille)
+URL:https://fannycorpet.com/inscription.html
+STATUS:CONFIRMED
+SEQUENCE:0
+END:VEVENT
+END:VCALENDAR
