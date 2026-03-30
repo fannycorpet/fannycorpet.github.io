@@ -725,11 +725,11 @@
     </h1>
     <p class="hero-sub">
       Ce qui t'a amené jusqu'ici ne suffira pas pour la suite.<br>
-      Je crée avec toi le nouvel OS qui te permet de rester lucide, ancré et ambitieux — quelle que soit la pression.
+      Je crée avec toi le nouvel Operating System (OS) qui te permet de rester lucide, ancré et ambitieux — quelle que soit la pression.
     </p>
     <div class="hero-actions">
       <a href="https://calendly.com/fannycorpetcoaching/30min" target="_blank" class="btn-primary">Parlons de ton projet</a>
-      <a href="https://tally.so/r/w78NVA" class="btn-secondary">Télécharger le guide</a>
+      <button onclick="showMcPopup()" class="btn-secondary" style="cursor:pointer;border:none;background:none;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;text-transform:inherit;padding:0.75rem 1.5rem;color:inherit;text-decoration:underline;text-underline-offset:3px;">Télécharger le guide levée →</button>
     </div>
   </div>
   <div class="hero-photo">
@@ -752,7 +752,7 @@
 <section class="what">
   <div class="section-label reveal">Ce qu'on fait ensemble</div>
   <h2 class="reveal">Créer les conditions pour que<br>le CEO <em>performe sur la durée.</em></h2>
-  <p class="what-sub reveal">Je ne t'apprends ni à lever, ni à scaler. Je crée avec toi ton nouvel OS — celui qui te permet de rester lucide, ancré et ambitieux, quelle que soit la pression du moment.</p>
+  <p class="what-sub reveal">Je ne t'apprends ni à lever, ni à scaler. Je crée avec toi ton nouvel Operating System (OS) — celui qui te permet de rester lucide, ancré et ambitieux, quelle que soit la pression du moment.</p>
   <div class="benefits">
     <div class="benefit reveal">
       <div class="benefit-dot"></div>
@@ -888,18 +888,293 @@
   </div>
 </footer>
 
+<!-- ═══════════════════════════════════════════════════
+     BANDEAU + POPUP MASTERCLASS
+     ═══════════════════════════════════════════════════ -->
+
+<!-- Styles bandeau + popup (avant le CSS Brevo pour que les overrides fonctionnent) -->
+<style>
+  /* ── Bandeau ── */
+  #mc-banner {
+    position: fixed; top:0; left:0; right:0; z-index:300;
+    background: #E8A98C; padding: 9px 48px 9px 20px;
+    display: none; align-items:center; justify-content:center; gap:14px;
+    cursor:pointer; transition:background 0.2s;
+  }
+  body.mc-banner-visible #mc-banner { display:flex; }
+  #mc-banner:hover { background: #d9946e; }
+  #mc-banner-text {
+    font-family:'DM Sans',sans-serif; font-size:0.82rem;
+    font-weight:500; color:#fff; text-align:center;
+  }
+  #mc-banner-text strong { font-weight:700; }
+  #mc-banner-pill {
+    font-family:'DM Sans',sans-serif; font-size:0.76rem; font-weight:700;
+    color:#fff; background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.35);
+    padding:4px 12px; border-radius:20px; white-space:nowrap; flex-shrink:0;
+  }
+  #mc-banner-x {
+    position:absolute; right:14px; background:none; border:none;
+    color:rgba(255,255,255,0.75); font-size:1rem; cursor:pointer; padding:4px; line-height:1;
+  }
+  #mc-banner-x:hover { color:#fff; }
+  body.mc-banner-visible nav { top:38px; }
+  body.mc-banner-visible { padding-top: 38px; }
+
+  /* ── Overlay ── */
+  #mc-overlay {
+    position:fixed; inset:0; z-index:9998;
+    background:rgba(11,61,46,0.6); backdrop-filter:blur(3px);
+    opacity:0; pointer-events:none; transition:opacity 0.3s;
+  }
+  #mc-overlay.mc-on { opacity:1; pointer-events:auto; }
+
+  /* ── Popup card ── */
+  #mc-popup {
+    position:fixed; top:50%; left:50%;
+    transform:translate(-50%,-54%);
+    width:min(540px, calc(100vw - 28px));
+    background:#FFF5F0; border-radius:18px;
+    box-shadow:0 20px 60px rgba(11,61,46,0.22);
+    z-index:9999; overflow:hidden; max-height:92vh; overflow-y:auto;
+    opacity:0; pointer-events:none;
+    transition:opacity 0.3s, transform 0.35s cubic-bezier(0.22,1,0.36,1);
+  }
+  #mc-popup.mc-on { opacity:1; transform:translate(-50%,-50%); pointer-events:auto; }
+
+  /* Header vert */
+  #mc-popup .mc-hd {
+    background:#0B3D2E; padding:24px 28px 20px; position:relative;
+  }
+  #mc-popup .mc-hd-badge {
+    display:inline-flex; align-items:center; gap:5px;
+    background:rgba(232,169,140,0.2); border:1px solid rgba(232,169,140,0.3);
+    color:#E8A98C; font-family:'DM Sans',sans-serif; font-size:0.65rem;
+    font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+    padding:4px 11px; border-radius:20px; margin-bottom:10px;
+  }
+  #mc-popup .mc-hd-badge::before {
+    content:''; width:5px; height:5px; border-radius:50%; background:#E8A98C;
+  }
+  #mc-popup .mc-hd h2 {
+    font-family:'DM Serif Display',serif; font-size:1.4rem;
+    line-height:1.15; color:#fff; margin:0 0 5px 0; font-weight:normal;
+  }
+  #mc-popup .mc-hd h2 em { font-style:italic; color:#E8A98C; }
+  #mc-popup .mc-hd p {
+    font-family:'DM Serif Display',serif; font-style:italic;
+    font-size:0.86rem; color:rgba(255,245,240,0.65); margin:0 0 14px 0;
+  }
+  #mc-popup .mc-meta { display:flex; gap:12px; flex-wrap:wrap; }
+  #mc-popup .mc-meta span {
+    font-family:'DM Sans',sans-serif; font-size:0.74rem;
+    color:rgba(255,245,240,0.68); display:flex; align-items:center; gap:4px;
+  }
+  #mc-popup .mc-meta svg {
+    width:11px; height:11px; stroke:#E8A98C; stroke-width:2; fill:none;
+  }
+  #mc-close {
+    position:absolute; top:11px; right:13px;
+    width:26px; height:26px; border-radius:50%;
+    background:rgba(255,255,255,0.08); border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  #mc-close:hover { background:rgba(255,255,255,0.16); }
+  #mc-close svg { width:13px; height:13px; stroke:rgba(255,245,240,0.65); stroke-width:2.5; fill:none; }
+
+  /* Body formulaire — styles propres sans Brevo */
+  #mc-popup .mc-bd { padding:20px 28px 24px; }
+  #mc-popup .mc-field { margin-bottom:12px; }
+  #mc-popup .mc-field label {
+    display:block; font-family:'DM Sans',sans-serif; font-size:0.76rem;
+    font-weight:600; color:#0B3D2E; margin-bottom:5px;
+  }
+  #mc-popup .mc-field label .req { color:#E8A98C; }
+  #mc-popup .mc-field input,
+  #mc-popup .mc-field select {
+    width:100%; padding:10px 13px;
+    border:1.5px solid #D4DDD7; border-radius:8px;
+    font-family:'DM Sans',sans-serif; font-size:0.87rem; color:#1A1A1A;
+    background:#fff; outline:none; transition:border-color 0.15s;
+    appearance:none;
+  }
+  #mc-popup .mc-field input::placeholder { color:#A8B5AE; }
+  #mc-popup .mc-field input:focus,
+  #mc-popup .mc-field select:focus {
+    border-color:#0B3D2E;
+    box-shadow:0 0 0 3px rgba(11,61,46,0.07);
+  }
+  #mc-popup .mc-select-wrap { position:relative; }
+  #mc-popup .mc-select-wrap svg {
+    position:absolute; right:10px; top:50%; transform:translateY(-50%);
+    pointer-events:none; width:13px; height:13px;
+    stroke:#6B7E72; stroke-width:2; fill:none;
+  }
+  #mc-popup .mc-newsletter {
+    display:flex; align-items:flex-start; gap:8px; margin-bottom:14px;
+  }
+  #mc-popup .mc-newsletter input { width:16px!important; min-width:16px; height:16px; padding:0!important; margin-top:2px; accent-color:#0B3D2E; cursor:pointer; }
+  #mc-popup .mc-newsletter label {
+    font-size:0.74rem; color:#6B7E72; font-weight:400; line-height:1.5; cursor:pointer;
+  }
+  #mc-popup .mc-submit {
+    width:100%; padding:12px; background:#0B3D2E; color:#FFF5F0;
+    border:none; border-radius:10px; font-family:'DM Sans',sans-serif;
+    font-size:0.9rem; font-weight:600; cursor:pointer;
+    transition:transform 0.15s, box-shadow 0.15s;
+  }
+  #mc-popup .mc-submit:hover {
+    transform:translateY(-1px);
+    box-shadow:0 6px 18px rgba(11,61,46,0.18);
+  }
+  #mc-popup .mc-foot {
+    margin-top:10px; font-family:'DM Sans',sans-serif;
+    font-size:0.68rem; color:#A8B5AE; text-align:center; line-height:1.5;
+  }
+  #mc-popup .mc-foot a { color:#0B3D2E; }
+  #mc-popup .mc-later {
+    display:block; margin:7px auto 0; font-family:'DM Sans',sans-serif;
+    font-size:0.72rem; color:#6B7E72; cursor:pointer;
+    text-decoration:underline; background:none; border:none; padding:0;
+  }
+
+  @media(max-width:480px){
+    #mc-popup .mc-hd { padding:20px 20px 16px; }
+    #mc-popup .mc-bd { padding:16px 20px 20px; }
+    #mc-popup .mc-hd h2 { font-size:1.2rem; }
+  }
+</style>
+
+<!-- Overlay -->
+<div id="mc-overlay" onclick="closeMcPopup()"></div>
+
+<!-- Popup -->
+<div id="mc-popup" role="dialog" aria-modal="true">
+  <div class="mc-hd">
+    <button id="mc-close" onclick="closeMcPopup()" aria-label="Fermer">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="mc-hd-badge">Masterclass gratuite</div>
+    <h2>Les enjeux sous-estimés<br><em>d'une levée de fonds</em></h2>
+    <p>Ce que les VCs regardent vraiment — et dont personne ne t'a parlé.</p>
+    <div class="mc-meta">
+      <span>
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        23 avril 2026
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        11h30 · 75 min
+      </span>
+      <span>
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
+        En ligne · Gratuit
+      </span>
+    </div>
+  </div>
+  <div class="mc-bd">
+    <form method="POST" action="https://b55215e3.sibforms.com/serve/MUIFAC15C0DeUKE8KRl6p8B7qlrDPv81h7-R9rr2CLk5QwmuR_yZ0dn1oje7Vf9ZUzO0gLix-mG5mY95rpfHobLslvedPlLZvz5LIk5V7RX1uPohc1D_RXwOxyYWXxleBXaHShZMohWW1ooez0cHALQkyD_-eyyCzaG3EZi9f0ZHdMYF2lOnTTZcQceUQvzX4hQILtLX2F_4FlA24w==" id="mc-form">
+      <div class="mc-field">
+        <label for="f-prenom">Prénom <span class="req">*</span></label>
+        <input type="text" id="f-prenom" name="PRENOM" placeholder="Ton prénom" autocomplete="given-name" required maxlength="200">
+      </div>
+      <div class="mc-field">
+        <label for="f-nom">Nom <span class="req">*</span></label>
+        <input type="text" id="f-nom" name="NOM" placeholder="Ton nom" autocomplete="family-name" required maxlength="200">
+      </div>
+      <div class="mc-field">
+        <label for="f-email">Email <span class="req">*</span></label>
+        <input type="email" id="f-email" name="EMAIL" placeholder="ton@email.com" autocomplete="email" required>
+      </div>
+      <div class="mc-field">
+        <label for="f-levee">Où en es-tu de ta levée ? <span class="req">*</span></label>
+        <div class="mc-select-wrap">
+          <select id="f-levee" name="OU_EN_ES_TU" required>
+            <option value="" disabled selected>Choisis une option</option>
+            <option>J'y réfléchis</option>
+            <option>Je vais commencer bientôt</option>
+            <option>Je suis en plein dedans</option>
+            <option>J'ai déjà levé</option>
+            <option>Je suis juste curieux·se</option>
+          </select>
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+      <div class="mc-newsletter">
+        <input type="checkbox" id="f-optin" name="OPT_IN" value="1">
+        <label for="f-optin">J'accepte de recevoir les contenus de Fanny Corpet par email. Désabonnement possible à tout moment.</label>
+      </div>
+      <!-- Champs cachés requis Brevo -->
+      <input type="text" name="email_address_check" value="" style="display:none">
+      <input type="hidden" name="locale" value="fr">
+      <input type="hidden" name="html_type" value="simple">
+      <button type="submit" class="mc-submit">Je réserve ma place →</button>
+    </form>
+    <p class="mc-foot">
+      Données utilisées uniquement pour ton inscription ·
+      <a href="mailto:fannycorpetcoaching@gmail.com">Contact & données personnelles</a>
+    </p>
+    <button class="mc-later" onclick="closeMcPopup()">Pas maintenant</button>
+  </div>
+</div>
+
+<!-- Bandeau -->
+<div id="mc-banner" onclick="showMcPopup()">
+  <div id="mc-banner-text">
+    🎙 <strong>Masterclass gratuite — 23 avril :</strong>
+    Les enjeux du VC-backed dont personne ne t'a parlé.
+  </div>
+  <div id="mc-banner-pill">Je m'inscris →</div>
+  <button id="mc-banner-x" onclick="closeBanner(event)" aria-label="Fermer">✕</button>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script>
+  // ── Bandeau ──
+  (function(){
+    try { if(localStorage.getItem('mc_banner_closed')) return; } catch(e){}
+    document.body.classList.add('mc-banner-visible');
+  })();
+  function closeBanner(e){
+    e.stopPropagation();
+    document.getElementById('mc-banner').style.display='none';
+    document.body.classList.remove('mc-banner-visible');
+    try { localStorage.setItem('mc_banner_closed','1'); } catch(e){}
+  }
+
+  // ── Popup ──
+  function showMcPopup(){
+    document.getElementById('mc-overlay').classList.add('mc-on');
+    document.getElementById('mc-popup').classList.add('mc-on');
+    document.body.style.overflow='hidden';
+  }
+  function showPopup(){ showMcPopup(); } // alias pour les boutons existants
+  function closeMcPopup(){
+    document.getElementById('mc-overlay').classList.remove('mc-on');
+    document.getElementById('mc-popup').classList.remove('mc-on');
+    document.body.style.overflow='';
+    try { localStorage.setItem('mc_popup_dismissed', Date.now()+7*864e5); } catch(e){}
+  }
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeMcPopup(); });
+
+  // Auto-apparition après 12 secondes
+  (function(){
+    try {
+      const d=localStorage.getItem('mc_popup_dismissed');
+      if(d && Date.now()<parseInt(d)) return;
+    } catch(e){}
+    if(window.location.pathname.includes('inscription')) return;
+    setTimeout(showMcPopup, 12000);
+  })();
+
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-        observer.unobserve(entry.target);
-      }
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach((entry,i)=>{
+      if(entry.isIntersecting) setTimeout(()=>entry.target.classList.add('visible'), i*80);
     });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
+  },{threshold:0.15});
+  reveals.forEach(el=>observer.observe(el));
 </script>
 </body>
 </html>
